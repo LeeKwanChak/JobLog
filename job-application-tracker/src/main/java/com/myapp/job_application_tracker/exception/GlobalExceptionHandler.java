@@ -31,4 +31,17 @@ public class GlobalExceptionHandler {
     public @ResponseBody ErrorResponse handleUserAlreadyExistsException(UserAlreadyExistsException e){
         return new ErrorResponse(HttpStatus.CONFLICT.value(), e.getMessage());
     }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleNotFoundException(NotFoundException e){
+        return new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorResponse handleAllUncaughtException(Exception e) {
+        return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "An unexpected error occurred: " + e.getMessage());
+    }
 }
