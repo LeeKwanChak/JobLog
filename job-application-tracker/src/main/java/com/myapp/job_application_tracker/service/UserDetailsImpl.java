@@ -26,6 +26,7 @@ public class UserDetailsImpl implements UserDetails {
     public static UserDetailsImpl build(User user){
         return UserDetailsImpl.builder()
                 .id(user.getId())
+                .username(user.getUsername())
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .build();
