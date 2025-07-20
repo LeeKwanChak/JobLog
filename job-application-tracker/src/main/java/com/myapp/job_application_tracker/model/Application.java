@@ -2,6 +2,7 @@ package com.myapp.job_application_tracker.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import java.time.LocalDate;
 import com.myapp.job_application_tracker.enums.ApplicationStatus;
@@ -18,14 +19,14 @@ public class Application {
     private String companyName;
 
     @Column(nullable = false)
-    private String jobPosition;
+    private String jobTitle;
 
     @Column(nullable = false)
     private LocalDate applyDate;
 
     private String requiredSkills;
 
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     private ApplicationStatus applicationStatus;
 

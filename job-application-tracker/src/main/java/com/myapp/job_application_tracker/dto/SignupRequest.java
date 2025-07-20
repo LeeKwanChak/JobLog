@@ -23,7 +23,6 @@ public class SignupRequest {
     private String password;
 
     public User toUser(){
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return new User(this.username, this.email, passwordEncoder.encode(this.password));
+        return new User(this.username, this.email, this.password);
     }
 }
