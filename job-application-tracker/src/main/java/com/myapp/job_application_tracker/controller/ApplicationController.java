@@ -1,6 +1,7 @@
 package com.myapp.job_application_tracker.controller;
 
 import com.myapp.job_application_tracker.dto.ApplicationRequest;
+import com.myapp.job_application_tracker.enums.ApplicationStatus;
 import com.myapp.job_application_tracker.exception.NotFoundException;
 import com.myapp.job_application_tracker.model.Application;
 import com.myapp.job_application_tracker.model.User;
@@ -16,6 +17,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 
 import java.util.List;
 
@@ -51,7 +56,7 @@ public class ApplicationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveApplication);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Application>> getAllApplicationsForCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -95,4 +100,24 @@ public class ApplicationController {
         applicationService.deleteApplication(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Page<Application>> searchApplications(
+            @RequestParam(required = false) String companyName,
+            @RequestParam(required = false) String jobTitle,
+            @RequestParam(required = false) ApplicationStatus status,
+            @RequestParam(required = false) String requiredSkills,
+            @PageableDefault(page = 0, size = 30, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long currentUserId = userDetails.getId();
+
+        Page<Application> applications = applicationService.getFilteredApplication(
+                currentUserId, companyName, jobTitle, status, requiredSkills, pageable);
+
+        return ResponseEntity.ok(applications);
+    }
+
 }
