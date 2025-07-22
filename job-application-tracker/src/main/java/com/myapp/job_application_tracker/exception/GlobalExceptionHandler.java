@@ -38,10 +38,23 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
     }
 
+    @ExceptionHandler(GeminiResponseException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public ErrorResponse handleGeminiResponseException(NotFoundException e){
+        return new ErrorResponse(HttpStatus.BAD_GATEWAY.value(), e.getMessage());
+    }
+
+    @ExceptionHandler(WebContentExtractionException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public ErrorResponse handleWebContentExtractionException(NotFoundException e){
+        return new ErrorResponse(HttpStatus.BAD_GATEWAY.value(), e.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorResponse handleAllUncaughtException(Exception e) {
         return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "An unexpected error occurred: " + e.getMessage());
     }
+
 }

@@ -6,6 +6,7 @@ import com.myapp.job_application_tracker.exception.NotFoundException;
 import com.myapp.job_application_tracker.model.Application;
 import com.myapp.job_application_tracker.model.User;
 import com.myapp.job_application_tracker.repository.UserRepository;
+import com.myapp.job_application_tracker.service.AIAutofillService;
 import com.myapp.job_application_tracker.service.ApplicationService;
 import com.myapp.job_application_tracker.service.UserDetailsImpl;
 import jakarta.validation.Valid;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import com.myapp.job_application_tracker.dto.AutofillRequest;
 
 import java.util.List;
 
@@ -29,11 +31,13 @@ import java.util.List;
 public class ApplicationController {
     private final ApplicationService applicationService;
     private final UserRepository userRepository;
+    private final AIAutofillService aiAutofillService;
 
     @Autowired
-    public ApplicationController(ApplicationService applicationService, UserRepository userRepository){
+    public ApplicationController(ApplicationService applicationService, UserRepository userRepository, AIAutofillService aiAutofillService){
         this.applicationService = applicationService;
         this.userRepository = userRepository;
+        this.aiAutofillService = aiAutofillService;
     }
 
     @PostMapping
@@ -118,6 +122,17 @@ public class ApplicationController {
                 currentUserId, companyName, jobTitle, status, requiredSkills, pageable);
 
         return ResponseEntity.ok(applications);
+    }
+
+    @PostMapping("/autofill")
+    public ResponseEntity<Application> autofillJobApplication(@Valid @RequestBody AutofillRequest request){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long currentUserId = userDetails.getId();
+        User currentUser = userRepository.findById(currentUserId).orElseThrow(() -> new AccessDeniedException("You are not authorized to add this application."));
+
+        Application application = aiAutofillService.autoFill(request.getUrl(), currentUser);
+        return new ResponseEntity<>(application, HttpStatus.CREATED);
     }
 
 }
