@@ -12,7 +12,4 @@ import lombok.NoArgsConstructor;
 public class AutofillRequest {
     @NotBlank(message = "URL cannot ba empty")
     private String url;
-
-    @NotNull
-    private Long userId;
 }

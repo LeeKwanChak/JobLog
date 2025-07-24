@@ -40,7 +40,7 @@ const LoginForm: React.FC<LoginFormProps> = ({onSwitchToRegister,onLoginSuccess}
     return(
         <div className=' px-12 py-12 rounded-3xl bg-white shadow-2xl'>
             <div className='text-center'>
-                <p className='text-2xl font-semibold'>Job Application Tracker</p>
+                <p className='text-2xl font-semibold'>Job Tracker</p>
                 <p className='mt-4 text-gray-600'>Welcome back! Sign in to continue</p>
             </div>
             <form onSubmit = {handleSubmit} className='mt-8'>
