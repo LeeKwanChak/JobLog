@@ -14,7 +14,7 @@ const MainPage: React.FC = () => {
     }
     return(
         <div>
-            <p>Main Page</p>
+            <p className='text-blue-500'>Main Page</p>
             <button onClick = {handleLogout}>Logout</button>
 
         </div>

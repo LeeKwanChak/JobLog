@@ -46,49 +46,60 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onSwitchToLogin}) =>{
     }
 
     return (
-        <div>
-            <p>Sign up Form</p>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type = "text"
-                    id = "username"
-                    value = {username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder= "Username"
-                    required />
-                    
-                <input
-                    type = "email"
-                    id = "email"
-                    value = {email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder= "Email"
-                    required />
-
-                <input
+        <div className=' px-12 py-12 rounded-3xl bg-white shadow-2xl'>
+            <div className='text-center'>
+                <p className='text-2xl font-semibold'>Job Application Tracker</p>
+                <p className='mt-4 text-gray-600'>Hello! Sign in to continue</p>
+            </div>
+            <form onSubmit={handleSubmit} className='mt-8'>
+                <div>
+                    <span>Username</span>
+                    <input className='w-full border-1 border-gray-300 rounded-xl p-3 bg-transparent mb-2'
+                        type = "text"
+                        id = "username"
+                        value = {username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required />
+                </div>
+                <div>
+                    <span>Email</span>
+                    <input className='w-full border-1 border-gray-300 rounded-xl p-3 bg-transparent mb-2'
+                        type = "email"
+                        id = "email"
+                        value = {email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required />
+                </div>
+                <div>
+                <span>Password</span>
+                <input className='w-full border-1 border-gray-300 rounded-xl p-3 bg-transparent mb-2'
                     type="password"
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
                     required
                 />
-
-                    <input
+                </div>
+                <div>
+                    <span>Confirmed Password</span>
+                    <input className='w-full border-1 border-gray-300 rounded-xl p-3 bg-transparent mb-2'
                         type="password"
                         id="confirmPassword"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Confirm Password"
                         required
                     />
+                </div>
                 {error && <p>{error}</p>}
-                <button type="submit">Sign up</button>
+                <div className='mt-3 flex flex-col'>
+                    <button type="submit" className='bg-blue-500 text-white mb-2 rounded-xl py-3 cursor-pointer hover:bg-blue-600'>Sign up</button>
+                    <p className='text-center'>
+                        Already have an account?{' '}
+                        <span onClick = {onSwitchToLogin} className='text-blue-400 cursor-pointer hover:underline'>Sign in</span>
+                    </p>
+                </div>
+                
             </form>
-            <p>
-                Already have an account?{' '}
-                <span onClick = {onSwitchToLogin}>Sign in</span>
-            </p>
             
         </div>
     )
