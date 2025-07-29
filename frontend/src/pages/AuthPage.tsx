@@ -35,12 +35,12 @@ const AuthPage: React.FC = () =>{
                 Work hard. Dream big.
             </div>
 
-            <div className='absolute top-[17%] left-[6%] -translate-x-4 bg-white px-4 py-2 rounded-lg shadow-lg text-gray-700 font-semibold'>
-                "Impossible" is just a perspective, not a fact.
+            <div className='absolute top-[23%] left-[16%] -translate-x-4 bg-white px-4 py-2 rounded-lg shadow-lg text-gray-700 font-semibold'>
+                Hello!
             </div>
 
             <div className='absolute top-[76%] left-[16%] -translate-x-4 bg-white px-4 py-2 rounded-lg shadow-lg text-gray-700 font-semibold'>
-                The only thing you're gonna have is what you make.
+                "Impossible" is just a perspective, not a fact.
             </div>
 
                 <div className='w-60 h-60 bg-gradient-to-tr  to-pink-500 rounded-full animate-bounce'/>
