@@ -96,7 +96,7 @@ public class AIAutofillService {
                     Content.fromParts(Part.fromText(prompt)),
                     GenerateContentConfig.builder()
                             .temperature(0.0f)
-                            .maxOutputTokens(1024)
+                            .maxOutputTokens(2000)
                             .build()
             );
         }catch (Exception e){
@@ -139,8 +139,9 @@ public class AIAutofillService {
         application.setJobTitle(autofillResponse.getJobTitle());
         application.setRequiredSkills(autofillResponse.getRequiredSkills());
         application.setApplyDate(LocalDate.now());
-        application.setApplicationStatus(ApplicationStatus.APPLIED);
+        application.setApplicationStatus(ApplicationStatus.Applied);
         application.setUser(user);
+        application.setUrl(url);
 
         return applicationRepository.save(application);
     }

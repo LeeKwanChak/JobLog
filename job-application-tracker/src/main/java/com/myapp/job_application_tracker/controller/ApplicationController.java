@@ -54,6 +54,7 @@ public class ApplicationController {
         application.setApplyDate(applicationRequest.getApplyDate());
         application.setApplicationStatus(applicationRequest.getApplicationStatus());
         application.setRequiredSkills(applicationRequest.getRequiredSkills());
+        application.setUrl(applicationRequest.getUrl());
 
         application.setUser(currentUser);
         Application saveApplication = applicationService.saveApplication(application);
@@ -86,6 +87,7 @@ public class ApplicationController {
         application.setApplyDate(applicationRequest.getApplyDate());
         application.setApplicationStatus(applicationRequest.getApplicationStatus());
         application.setRequiredSkills(applicationRequest.getRequiredSkills());
+        application.setUrl(applicationRequest.getUrl());
         Application updatedApplication = applicationService.saveApplication(application);
         return ResponseEntity.ok(updatedApplication);
     }

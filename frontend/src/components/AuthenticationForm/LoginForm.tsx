@@ -1,6 +1,6 @@
 import React , {useState} from 'react';
-import api from '../utils/api';
-import { setToken } from '../utils/auth';
+import api from '../../utils/api';
+import { setToken } from '../../utils/auth';
 interface LoginFormProps{
     onSwitchToRegister: () => void
     onLoginSuccess: () => void

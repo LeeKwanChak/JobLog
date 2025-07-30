@@ -20,4 +20,5 @@ public class AutofillResponse {
     private LocalDate applyDate;
     private String requiredSkills;
     private ApplicationStatus applicationStatus;
+    private String url;
 }

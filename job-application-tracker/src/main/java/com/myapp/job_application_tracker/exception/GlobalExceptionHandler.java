@@ -40,13 +40,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(GeminiResponseException.class)
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
-    public ErrorResponse handleGeminiResponseException(NotFoundException e){
+    public ErrorResponse handleGeminiResponseException(GeminiResponseException e){
         return new ErrorResponse(HttpStatus.BAD_GATEWAY.value(), e.getMessage());
     }
 
     @ExceptionHandler(WebContentExtractionException.class)
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
-    public ErrorResponse handleWebContentExtractionException(NotFoundException e){
+    public ErrorResponse handleWebContentExtractionException(WebContentExtractionException e){
         return new ErrorResponse(HttpStatus.BAD_GATEWAY.value(), e.getMessage());
     }
 

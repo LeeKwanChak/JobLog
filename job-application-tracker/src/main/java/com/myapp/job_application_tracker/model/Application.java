@@ -24,7 +24,12 @@ public class Application {
     @Column(nullable = false)
     private LocalDate applyDate;
 
+    @Column(columnDefinition = "TEXT")
     private String requiredSkills;
+
+    @Column(columnDefinition = "TEXT")
+    private String url;
+
 
     @NotNull
     @Enumerated(EnumType.STRING)

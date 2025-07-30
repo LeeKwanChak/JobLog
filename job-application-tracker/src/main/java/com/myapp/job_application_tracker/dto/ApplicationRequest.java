@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotNull;
 
 @Data
 public class ApplicationRequest {
+    private String url;
+
     @NotBlank(message= "Company Name cannot be blank")
     private String companyName;
 
