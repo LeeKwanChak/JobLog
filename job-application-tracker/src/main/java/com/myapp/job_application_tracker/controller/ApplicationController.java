@@ -114,7 +114,7 @@ public class ApplicationController {
             @RequestParam(required = false) String jobTitle,
             @RequestParam(required = false) ApplicationStatus status,
             @RequestParam(required = false) String requiredSkills,
-            @PageableDefault(page = 0, size = 30, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+            @PageableDefault(page = 0, size = 50, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();

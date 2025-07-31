@@ -64,12 +64,12 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ application, onClose, onUpdateS
     if (!application) return null
     
     return(
-        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center">
             <div className="bg-white p-6 rounded-lg shadow-xl w-11/12 md:w-1/2 lg:w-1/3 relative">
                 <h2 className="text-2xl font-bold mb-4">Update Info</h2>
                 <button
                     onClick={onClose}
-                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl font-bold"
+                    className="absolute top-4 right-3 text-gray-500 hover:text-gray-800 text-3xl font-bold"
                 >
                     &times;
                 </button>
@@ -159,10 +159,10 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ application, onClose, onUpdateS
                             <option value="Rejected">Rejected</option>
                         </select>
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex justify-between">
                         <button
                             type="submit"
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
+                            className="bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded focus:outline-none"
                             disabled={loading}
                         >
                             {loading ? 'Updating' : 'Update'}

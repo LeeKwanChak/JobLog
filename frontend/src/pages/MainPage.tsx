@@ -5,7 +5,7 @@ import { MdOutlineDashboard, MdLogout } from 'react-icons/md';
 import { FaChartSimple } from "react-icons/fa6";
 import { LuContactRound } from "react-icons/lu";
 import Sidebar from '../components/Sidebar/Sidebar.tsx';
-import UserApplication from './UserApplication.tsx';
+import UserApplication from './ApplicationPage.tsx';
 import { FaUser } from "react-icons/fa";
 
 const MainPage: React.FC = () => {

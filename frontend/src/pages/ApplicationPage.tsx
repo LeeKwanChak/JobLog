@@ -2,7 +2,10 @@ import React , {useState, useEffect, type FormEvent} from 'react';
 import { IoMdMore } from "react-icons/io";
 import api from '../utils/api.ts';
 import UpdateForm from '../components/PopupForm/UpdateForm.tsx'
-import type { Application } from '../types';
+import type { Application } from '../types.ts';
+import { IoMdAddCircleOutline } from "react-icons/io";
+import CreateForm from '../components/PopupForm/CreateForm.tsx'
+import { IoFilter } from "react-icons/io5";
 
 
 
@@ -162,7 +165,7 @@ const UserApplication: React.FC = () =>{
 
             <main className = "overflow-x-hidden bg-gray-50 min-h-screen pl-2 pr-2">
                 <div className='flex justify-between p-3 mb-4 mt-3'>
-                    <p className='text-2xl mt-1 hidden md:block'>My Applications</p>
+                    <p className='text-2xl mt-1 hidden md:block whitespace-nowrap'>My Applications</p>
                     <form onSubmit={AIAutofill} className='w-full max-w-xl'>
                         <input type="text" 
                             placeholder='Paste the url here, let AI create application for you!'
@@ -172,9 +175,12 @@ const UserApplication: React.FC = () =>{
                             onChange={(e) => setUrlToAutofill(e.target.value)}
                         />
                     </form>
-                    <div className='inline-flex gap-4'>
-                        <button className=' rounded-2xl p-3 cursor-pointer bg-gray-200 hover:bg-gray-300 hidden md:block' onClick ={handleCreateApplication}>Filter</button>
-                        <button className=' rounded-2xl p-3 cursor-pointer bg-gray-200 hover:bg-gray-300 hidden md:block' onClick ={handleCreateApplication}>+ Create</button>
+                    <div className='inline-flex gap-2'>
+                        <button className=' flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 shadow-sm transition ml-2' onClick ={handleCreateApplication}><IoFilter /><span className="text-sm font-medium">Filter</span></button>
+                        <button className=' flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 shadow-sm transition' 
+                            onClick ={() => setShowCreateForm(true)}
+                            ><IoMdAddCircleOutline /><span className="text-sm font-medium">Create</span>
+                        </button>
                     </div>
                 </div>
 
@@ -185,7 +191,7 @@ const UserApplication: React.FC = () =>{
                     applications.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {applications.slice().reverse().map((app) => (
-                                <div key={app.id} className="relative bg-white p-6 rounded-xl shadow-lg border border-gray-200 hover:bg-gray-100 transition duration-300 ease-in-out ml-1 mr-1">
+                                <div key={app.id} className="relative bg-white p-5 rounded-xl shadow-lg border border-gray-200 hover:bg-gray-100 transition duration-300 ease-in-out ml-1 mr-1">
                                     <button onClick={(e) => {
                                         e.isPropagationStopped
                                         setOpenAppMenuId(openAppMenuId === app.id ? null : app.id);
@@ -200,7 +206,7 @@ const UserApplication: React.FC = () =>{
                                             <button onClick={() => handleDelete(app.id)} className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Delete</button>
                                         </div>
                                     )}
-                                    <p className="text-gray-600 text-sm flex items-center">{app.applyDate}</p>
+                                    <p className="text-gray-600 text-sm">{app.applyDate}</p>
                                     {/* <p className="text-lg font-bold text-gray-900 mt-2"><span className="font-semibold">{app.companyName}</span></p> */}
                                     <p className="text-lg font-bold text-gray-900 mt-2 flex items-center gap-2">
                                         {app.url && (
@@ -247,6 +253,18 @@ const UserApplication: React.FC = () =>{
                         onError={setError}
                     />
                 )}
+
+                {showCreateForm && (
+                    <CreateForm
+                        onClose={() => setShowCreateForm(false)}
+                        onCreateSuccess={() => {
+                            fetchAllApplications()
+                            setShowCreateForm(false)}
+                        }
+                        onError={setError}
+                    />
+                )
+                }
                 
             </main>
         </div>

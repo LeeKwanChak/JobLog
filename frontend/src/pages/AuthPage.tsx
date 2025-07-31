@@ -3,10 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import LoginForm from '../components/AuthenticationForm/LoginForm';
 import RegisterForm from '../components/AuthenticationForm/RegisterForm';
 
-interface AuthPageProps{
-    onLoginSuccess: () => void;
-}
-
 const AuthPage: React.FC = () =>{
     const [isLoginView, setIsLoginView] = useState(true);
     const navigate = useNavigate();
