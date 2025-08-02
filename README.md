@@ -1,6 +1,6 @@
 # Job Application Tracker
 
-A full stack app that allow user to track their job application. It use AI to automatically add job applications by simply pasting a URL, saving manual input time and improving tracking efficiency.
+A full stack app that help user to track their job application. It use AI to automatically extract job details and save application by simply pasting a URL, saving manual input time and improving tracking efficiency.
 
 
 ![ApplicationPage Screenshot](screenshot/screenshot.PNG)
@@ -59,9 +59,15 @@ A full stack app that allow user to track their job application. It use AI to au
     * VITE_API_URL: This variable defines the base URL for your backend API.
     
 4. Database Setup
-Ensure you have a PostgreSQL database named job-application-tracker-db created.
+    * Ensure you have a PostgreSQL database named job-application-tracker-db created.
 
 5. Run both the backend and the frontend
 
 ## Known Problems
 * Web Scraping Resistance: The auto-add function, which relies on web scraping techniques, may encounter difficulties on certain websites that implement advanced anti-scraping measures.
+
+### Auto-add Capabilities:
+
+**Supported Websites:** LinkedIn, Jobsdb, Google Careers, Apple Careers, AWS, Meta, and more...
+
+**Known Limitations:** Indeed, Oracle, Netflix 
