@@ -16,7 +16,9 @@ const CreateForm: React.FC<CreateFormProps> = ({onClose, onError, onCreateSucces
         applyDate: new Date().toISOString().split('T')[0],
         requiredSkills: '',
         applicationStatus: 'Applied',
-        url:''
+        url:'',
+        location: '',
+        salary: ''
     })
 
     
@@ -54,7 +56,7 @@ const CreateForm: React.FC<CreateFormProps> = ({onClose, onError, onCreateSucces
 
 
     return(
-        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center">
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-start overflow-y-auto p-6">
             <div className="bg-white w-11/12 md:w-1/2 lg:w-1/3 relative p-6 rounded-lg shadow-xl">
                 <h2 className="text-2xl font-bold mb-4">Application Details</h2>
                 <button
@@ -79,7 +81,7 @@ const CreateForm: React.FC<CreateFormProps> = ({onClose, onError, onCreateSucces
                     </div>
                     <div className="mb-4">
                         <label htmlFor="companyName" className="block text-gray-700 text-sm font-bold mb-2">
-                            Company Name:
+                            Company Name: *
                         </label>
                         <input
                             type="text"
@@ -93,7 +95,7 @@ const CreateForm: React.FC<CreateFormProps> = ({onClose, onError, onCreateSucces
                     </div>
                     <div className="mb-4">
                         <label htmlFor="jobTitle" className="block text-gray-700 text-sm font-bold mb-2">
-                            Job Title:
+                            Job Title: *
                         </label>
                         <input
                             type="text"
@@ -118,6 +120,31 @@ const CreateForm: React.FC<CreateFormProps> = ({onClose, onError, onCreateSucces
                             className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
                             required
                         />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="Salary" className="block text-gray-700 text-sm font-bold mb-2">
+                            Salary:
+                        </label>
+                        <textarea
+                            id="salary"
+                            name="salary"
+                            value={formData.salary}
+                            onChange={handleChange}
+                            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                        ></textarea>
+                    </div>
+
+                    <div className="mb-4">
+                        <label htmlFor="location" className="block text-gray-700 text-sm font-bold mb-2">
+                            Location:
+                        </label>
+                        <textarea
+                            id="location"
+                            name="location"
+                            value={formData.location}
+                            onChange={handleChange}
+                            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                        ></textarea>
                     </div>
                     <div className="mb-4">
                         <label htmlFor="requiredSkills" className="block text-gray-700 text-sm font-bold mb-2">
@@ -155,7 +182,7 @@ const CreateForm: React.FC<CreateFormProps> = ({onClose, onError, onCreateSucces
                             className="bg-sky-400 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none"
                             disabled={loading}
                         >
-                            {loading ? 'Creating' : 'Create'}
+                            {loading ? 'Adding' : 'Add'}
                         </button>
 
                         <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none"

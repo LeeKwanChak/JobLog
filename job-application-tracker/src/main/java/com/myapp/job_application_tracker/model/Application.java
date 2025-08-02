@@ -30,6 +30,11 @@ public class Application {
     @Column(columnDefinition = "TEXT")
     private String url;
 
+    @Column
+    private String location;
+
+    @Column
+    private String salary;
 
     @NotNull
     @Enumerated(EnumType.STRING)

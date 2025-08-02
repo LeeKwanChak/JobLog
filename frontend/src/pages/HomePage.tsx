@@ -1,14 +1,13 @@
 import React from 'react';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate,Outlet} from 'react-router-dom';
 import { removeToken } from '../utils/auth';
 import { MdOutlineDashboard, MdLogout } from 'react-icons/md';
 import { FaChartSimple } from "react-icons/fa6";
 import { LuContactRound } from "react-icons/lu";
 import Sidebar from '../components/Sidebar/Sidebar.tsx';
-import UserApplication from './ApplicationPage.tsx';
 import { FaUser } from "react-icons/fa";
 
-const MainPage: React.FC = () => {
+const HomePage: React.FC = () => {
     const navigate = useNavigate();
 
     const handleLogout = () =>{
@@ -17,19 +16,21 @@ const MainPage: React.FC = () => {
     }
 
     const menus =[
-        {name: "Application", link:'/', icon: MdOutlineDashboard},
-        {name: "Statistic", link:'/', icon: FaChartSimple},
-        {name: "User", link:'/', icon: FaUser},
+        {name: "Application", link:'/main/applications', icon: MdOutlineDashboard},
+        {name: "Statistics", link:'/main/statistics', icon: FaChartSimple},
+        {name: "User", link:'/main/user', icon: FaUser},
         {name: "Logout", link:'/', icon: MdLogout, action: handleLogout},
-        {name: "Contact Me", link:'/', icon: LuContactRound, margin: true},
+        {name: "Contact Me", link:'/main/contact', icon: LuContactRound, margin: true},
     ]
 
     return(
         <section className='flex'>
             <Sidebar menus={menus} />
-            <UserApplication />
+            <div className='flex-1/4'>
+                <Outlet />
+            </div>
         </section>
 
     )
 }
-export default MainPage;
+export default HomePage;

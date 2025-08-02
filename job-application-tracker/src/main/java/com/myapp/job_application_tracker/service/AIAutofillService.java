@@ -32,7 +32,9 @@ public class AIAutofillService {
     private final Client geminiClient;
     private final ApplicationRepository applicationRepository;
     private final ObjectMapper objectMapper;
-    private static final String CHROMEDRIVER_PATH = "C:\\Users\\KwanChak\\Desktop\\job-application-tracker\\job-application-tracker\\drivers\\chromedriver.exe";
+    @Value("${webdriver.chrome.driver.path}")
+    private String chromedriverPath;
+
 
     public AIAutofillService(WebClient.Builder webClientBuilder, @Value("${gemini.api.key}") String geminiApiKey, ApplicationRepository applicationRepository){
         this.webClient = webClientBuilder.build();
@@ -45,7 +47,7 @@ public class AIAutofillService {
     public String getWebContent(String url){
         WebDriver driver = null;
         try{
-            System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_PATH);
+            System.setProperty("webdriver.chrome.driver", chromedriverPath);
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
             options.addArguments("--disable-gpu");
@@ -66,7 +68,7 @@ public class AIAutofillService {
             String web_html = driver.getPageSource();
             org.jsoup.nodes.Document doc = org.jsoup.Jsoup.parse(web_html);
             String cleanedText = doc.body().text();
-            return cleanedText.substring(0, Math.min(cleanedText.length(), 3000));
+            return cleanedText.substring(0, Math.min(cleanedText.length(), 4000));
         }catch(Exception e){
             logger.error("Error during Selenium web content extraction.");
             throw new WebContentExtractionException("Fail to extract the web html.");
@@ -84,10 +86,12 @@ public class AIAutofillService {
         String prompt = "Please extract the following information from the provided job description text. Respond ONLY with a JSON object. If a field is not found or cannot be determined, use null for its value.\n" +
                 "**If you encounter any garbled or unreadable characters, please ignore them and continue processing the next valid character.**\n\n" +
                 "Please ignore cookie notices, terms and conditions, login/register prompts, navigation menu text, and other unrelated UI content. Focus only on analyzing the job posting\n"+
-                "Fields to extract: companyName, jobTitle, requiredSkills (as a single comma-separated string).\n" +
+                "Fields to extract: companyName, jobTitle, requiredSkills (as a single comma-separated string), location, salary.\n" +
+                "If provided, salary only return either one format: 1. $xxxxx - $xxxxx, 2. $xxxxx" +
                 "Ensure the JSON is perfectly valid and directly parseable, without any additional text or markdown formatting.\n\n" +
                 "Job Description Text:\n" + webContent + "\n\n" +
-                "JSON Output Example: {\"companyName\": \"Google\", \"jobTitle\": \"Software Engineer\", \"requiredSkills\": \"Java, Spring Boot, Microservices\"}";
+                "JSON Output Example: {\"companyName\": \"Google\", \"jobTitle\": \"Software Engineer\", \"requiredSkills\": \"Java, Spring Boot, Microservices\", \"location\": \"Hong Kong\", \"salary\": \"$18,000 - $24,000\"}";
+
 
         GenerateContentResponse response = null;
         try{
@@ -122,6 +126,8 @@ public class AIAutofillService {
             autofillResponse.setCompanyName(parsedResponse.getCompanyName());
             autofillResponse.setJobTitle(parsedResponse.getJobTitle());
             autofillResponse.setRequiredSkills(parsedResponse.getRequiredSkills());
+            autofillResponse.setLocation(parsedResponse.getLocation());
+            autofillResponse.setSalary(parsedResponse.getSalary());
 
         }catch (Exception e){
             throw new GeminiResponseException("Fail to get response from gemini-2.5-flash.");
@@ -138,8 +144,10 @@ public class AIAutofillService {
         application.setCompanyName(autofillResponse.getCompanyName());
         application.setJobTitle(autofillResponse.getJobTitle());
         application.setRequiredSkills(autofillResponse.getRequiredSkills());
+        application.setLocation(autofillResponse.getLocation());
         application.setApplyDate(LocalDate.now());
         application.setApplicationStatus(ApplicationStatus.Applied);
+        application.setSalary(autofillResponse.getSalary());
         application.setUser(user);
         application.setUrl(url);
 

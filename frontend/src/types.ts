@@ -6,4 +6,6 @@ export interface Application {
   applicationStatus: string
   requiredSkills: string
   url: string
+  location: string
+  salary: string
 }

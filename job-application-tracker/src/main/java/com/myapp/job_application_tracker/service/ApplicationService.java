@@ -37,7 +37,7 @@ public class ApplicationService {
 
     @Transactional(readOnly = true)
     public List<Application> getAllApplicationsByUserId(Long userId) {
-        return applicationRepository.findByUserId(userId);
+        return applicationRepository.findByUserIdOrderByCompanyNameAsc(userId);
     }
 
 

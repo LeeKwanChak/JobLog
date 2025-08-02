@@ -15,10 +15,19 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AutofillResponse {
     private String companyName;
+
     private String jobTitle;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate applyDate;
+
     private String requiredSkills;
+
     private ApplicationStatus applicationStatus;
+
     private String url;
+
+    private String location;
+
+    private String salary;
 }

@@ -1,12 +1,12 @@
 import React , {useState, useEffect, type FormEvent} from 'react';
-import { IoMdMore } from "react-icons/io";
 import api from '../utils/api.ts';
 import UpdateForm from '../components/PopupForm/UpdateForm.tsx'
 import type { Application } from '../types.ts';
 import { IoMdAddCircleOutline } from "react-icons/io";
 import CreateForm from '../components/PopupForm/CreateForm.tsx'
 import { IoFilter } from "react-icons/io5";
-
+import ApplicationPopup from '../components/PopupForm/ApplicationPopup.tsx';
+import ApplicationCard from '../components/ApplicationCard/ApplicationCard.tsx';
 
 
 interface AutofillRequest{
@@ -17,23 +17,16 @@ const UserApplication: React.FC = () =>{
     const [applications, setApplications] = useState<Application[]>([]);
     const [error, setError] = useState<string|null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-
     const [urlToAutofill, setUrlToAutofill] = useState<string>('');
     const [autofillLoading, setAutofillLoading] = useState<boolean>(false)
-
-    const [newApplication, setNewApplication] = useState<Omit<Application, 'id'>>({
-        companyName: '',
-        jobTitle: '',
-        applyDate: new Date().toISOString().split('T')[0],
-        requiredSkills: '',
-        applicationStatus: 'Applied',
-        url: ''
-    });
-
     const [openAppMenuId, setOpenAppMenuId] = useState<number | null>(null)
     const [showUpdateForm, setShowUpdateForm] = useState<boolean>(false)
     const [selectedApplication, setSelectedApplication] = useState<Application | null>(null)
     const [showCreateForm, setShowCreateForm] = useState<boolean>(false)
+    const [showApplicationPopup, setShowApplicationPopup] = useState<boolean>(false)
+    const [selectedApplicationPopup, setSelectedApplicationPopup] = useState<Application | null>(null)
+    const [showFilterDropdown, setShowFilterDropdown] = useState<boolean>(false)
+    const [statusFilter, setStatusFilter] = useState<string>('All')
 
     async function fetchAllApplications(){
         setError(null)
@@ -54,31 +47,6 @@ const UserApplication: React.FC = () =>{
     useEffect(() => {
         fetchAllApplications();
     }, []);
-
-    async function handleCreateApplication(e:FormEvent){
-        e.preventDefault()
-        setError(null)
-        try{
-            const response = await api.post<Application>('/applications', newApplication)
-            fetchAllApplications();
-            setNewApplication({
-                companyName: '',
-                jobTitle: '',
-                applyDate: '',
-                requiredSkills: '',
-                applicationStatus: '',
-                url: ''
-            });
-            console.log(response)
-        }catch(err:any){
-            if(err.response){
-                setError(err.response.data.message || 'Error when adding application.')
-            }else{
-                setError('An unexpected error occurred.');
-            }
-        }
-
-    }
 
     async function AIAutofill(e: FormEvent){
         e.preventDefault()
@@ -136,6 +104,12 @@ const UserApplication: React.FC = () =>{
         }
     }
 
+    function handleViewDetails(application: Application){
+        setSelectedApplicationPopup(application);
+        setShowApplicationPopup(true);
+        setOpenAppMenuId(null);
+    }
+
     function getStatusStyle(status: string): string{
     switch(status){
         case 'Applied':
@@ -158,28 +132,46 @@ const UserApplication: React.FC = () =>{
         }catch{
             return '';
         }
-    }   
+    }
+    const filteredApplications = statusFilter === 'All'? applications: applications.filter(app => app.applicationStatus === statusFilter);
 
     return(
         <div className='flex-1'>
-
             <main className = "overflow-x-hidden bg-gray-50 min-h-screen pl-2 pr-2">
                 <div className='flex justify-between p-3 mb-4 mt-3'>
-                    <p className='text-2xl mt-1 hidden md:block whitespace-nowrap'>My Applications</p>
+                    <p className='text-2xl mt-1 mr-1 hidden md:block whitespace-nowrap'>My Applications</p>
                     <form onSubmit={AIAutofill} className='w-full max-w-xl'>
-                        <input type="text" 
-                            placeholder='Paste the url here, let AI create application for you!'
-                            className='w-full max-w-xl shadow appearance-none border rounded py-2 px-3 text-gray-700 bg-white'
-                            disabled={autofillLoading}
-                            value={urlToAutofill}
-                            onChange={(e) => setUrlToAutofill(e.target.value)}
-                        />
+                        <div className="relative flex items-center">
+                            <input type="text" 
+                                placeholder='Paste job URL to auto-add an application'
+                                className='w-full max-w-xl shadow appearance-none border rounded py-2 px-3 text-gray-700 bg-white'
+                                disabled={autofillLoading}
+                                value={urlToAutofill}
+                                onChange={(e) => setUrlToAutofill(e.target.value)}
+                            />
+                            {autofillLoading && (
+                                <div className="absolute right-0 flex items-center pr-3">
+                                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-gray-300 border-t-sky-500"></div>
+                                </div>
+                            )}
+                        </div>
                     </form>
                     <div className='inline-flex gap-2'>
-                        <button className=' flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 shadow-sm transition ml-2' onClick ={handleCreateApplication}><IoFilter /><span className="text-sm font-medium">Filter</span></button>
-                        <button className=' flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 shadow-sm transition' 
+                        <button className=' flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 shadow-sm transition ml-2' onClick ={() => setShowFilterDropdown(!showFilterDropdown)}><IoFilter /><span className="hidden sm:inline text-sm font-medium">Filter</span></button>
+
+                        {showFilterDropdown && (
+                            <div className='absolute top-17 right-20 w-32 bg-white rounded-md shadow-lg border border-gray-200 z-10'>
+                                {['All', 'Applied', 'Interviewing', 'Offered' , 'Rejected'].map(status =>(
+                                    <button key={status} onClick={() => {setStatusFilter(status); setShowFilterDropdown(false)}} className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
+                                        {status}
+                                    </button>
+                                ) )}
+                            </div>
+                        )
+                        }
+                        <button className=' flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 shadow-sm transition' 
                             onClick ={() => setShowCreateForm(true)}
-                            ><IoMdAddCircleOutline /><span className="text-sm font-medium">Create</span>
+                            ><IoMdAddCircleOutline /><span className="hidden sm:inline text-sm font-medium">Add</span>
                         </button>
                     </div>
                 </div>
@@ -190,50 +182,23 @@ const UserApplication: React.FC = () =>{
 
                     applications.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {applications.slice().reverse().map((app) => (
-                                <div key={app.id} className="relative bg-white p-5 rounded-xl shadow-lg border border-gray-200 hover:bg-gray-100 transition duration-300 ease-in-out ml-1 mr-1">
-                                    <button onClick={(e) => {
-                                        e.isPropagationStopped
-                                        setOpenAppMenuId(openAppMenuId === app.id ? null : app.id);
-                                    }}
-                                    className="absolute top-4.5 right-2 p-1 rounded-full hover:bg-gray-200 cursor-pointer">
-                                        <IoMdMore size={24} className="text-gray-600" />
-                                    </button>
-
-                                    {openAppMenuId === app.id && (
-                                        <div className='absolute top-10 right-2 w-32 bg-white rounded-md shadow-lg border border-gray-200 z-10'>
-                                            <button onClick={() => handleUpdate(app.id)} className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Update</button>
-                                            <button onClick={() => handleDelete(app.id)} className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Delete</button>
-                                        </div>
-                                    )}
-                                    <p className="text-gray-600 text-sm">{app.applyDate}</p>
-                                    {/* <p className="text-lg font-bold text-gray-900 mt-2"><span className="font-semibold">{app.companyName}</span></p> */}
-                                    <p className="text-lg font-bold text-gray-900 mt-2 flex items-center gap-2">
-                                        {app.url && (
-                                            <img
-                                                src={getFavicon(app.url)}
-                                                alt="favicon"
-                                                className="w-5 h-5 rounded"
-                                            />
-                                        )}
-                                        <span className="font-semibold">{app.companyName}</span>
-                                    </p>
-                                    <h3 className="text-gray-700 text-lg mt-2">{app.jobTitle}</h3>
-                                    {/* <p className="text-gray-600 text-sm mt-2">Status: <span className="font-medium text-gray-800">{app.applicationStatus}</span></p> */}
-                                    <p className="text-sm mt-3">
-                                        Status:
-                                        <span className={`ml-2 px-3 py-1 rounded-full text-sm font-semibold ${getStatusStyle(app.applicationStatus)}`}>
-                                            {app.applicationStatus}
-                                        </span>
-                                    </p>
-                                    {/* <p className="text-gray-600 text-sm mt-3">Required Skills: <span className="font-medium text-gray-800">{app.requiredSkills}</span></p> */}
-                                    
-                                </div>
+                            {filteredApplications.map((app) => (
+                                <ApplicationCard
+                                    key = {app.id}
+                                    app= {app}
+                                    openAppMenuId = {openAppMenuId}
+                                    onToggleMenu={(id) => setOpenAppMenuId(openAppMenuId === id ? null : id)}
+                                    onUpdate={handleUpdate}
+                                    onDelete={handleDelete}
+                                    onViewDetails={handleViewDetails}
+                                    getStatusStyle={getStatusStyle}
+                                    getFavicon={getFavicon}
+                                />
                             ))}
                         </div>
                     ) : (
                         <div className="text-center py-8 text-gray-500 text-lg">
-                            {!error && "No job applications found. Click '+ Add Job' to get started!"}
+                            {!error && "No job applications found. Click '+ Add' or Paste an URL to get started!"}
                         </div>
                     )
                 )}
@@ -262,6 +227,15 @@ const UserApplication: React.FC = () =>{
                             setShowCreateForm(false)}
                         }
                         onError={setError}
+                    />
+                )
+                }
+
+                {showApplicationPopup && selectedApplicationPopup &&(
+                    <ApplicationPopup
+                        application = {selectedApplicationPopup}
+                        onClose = {() => {setShowApplicationPopup(false)
+                            setSelectedApplicationPopup(null)}}
                     />
                 )
                 }

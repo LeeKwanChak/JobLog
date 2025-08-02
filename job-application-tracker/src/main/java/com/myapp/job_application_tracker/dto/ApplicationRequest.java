@@ -24,4 +24,8 @@ public class ApplicationRequest {
     private ApplicationStatus applicationStatus;
 
     private String requiredSkills;
+
+    private String location;
+
+    private String salary;
 }

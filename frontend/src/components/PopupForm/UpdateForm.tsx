@@ -16,7 +16,9 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ application, onClose, onUpdateS
         applyDate: '',
         requiredSkills: '',
         applicationStatus: '',
-        url:''
+        url:'',
+        location: '',
+        salary: ''
     });
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -28,7 +30,9 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ application, onClose, onUpdateS
                 applyDate: application.applyDate,
                 requiredSkills: application.requiredSkills,
                 applicationStatus: application.applicationStatus,
-                url: application.url
+                url: application.url,
+                location: application.location,
+                salary : application.salary
             });
         }
     }, [application])
@@ -64,7 +68,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ application, onClose, onUpdateS
     if (!application) return null
     
     return(
-        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center">
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-start overflow-y-auto p-6">
             <div className="bg-white p-6 rounded-lg shadow-xl w-11/12 md:w-1/2 lg:w-1/3 relative">
                 <h2 className="text-2xl font-bold mb-4">Update Info</h2>
                 <button
@@ -128,6 +132,31 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ application, onClose, onUpdateS
                             className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
                             required
                         />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="Salary" className="block text-gray-700 text-sm font-bold mb-2">
+                            Company Name:
+                        </label>
+                        <input
+                            type="text"
+                            id="salary"
+                            name="salary"
+                            value={formData.salary}
+                            onChange={handleChange}
+                            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none "
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="location" className="block text-gray-700 text-sm font-bold mb-2">
+                            Location:
+                        </label>
+                        <textarea
+                            id="location"
+                            name="location"
+                            value={formData.location}
+                            onChange={handleChange}
+                            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                        ></textarea>
                     </div>
                     <div className="mb-4">
                         <label htmlFor="requiredSkills" className="block text-gray-700 text-sm font-bold mb-2">

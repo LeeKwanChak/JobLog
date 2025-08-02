@@ -11,8 +11,6 @@ import java.util.List;
 
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Long>, JpaSpecificationExecutor<Application> {
-    List<Application> findByUserId(Long id);
-
-
+    List<Application> findByUserIdOrderByCompanyNameAsc(Long id);
 
 }
