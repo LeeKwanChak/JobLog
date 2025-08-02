@@ -135,7 +135,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ application, onClose, onUpdateS
                     </div>
                     <div className="mb-4">
                         <label htmlFor="Salary" className="block text-gray-700 text-sm font-bold mb-2">
-                            Company Name:
+                            Salary:
                         </label>
                         <input
                             type="text"
