@@ -2,7 +2,7 @@
 
 A full stack app that allow user to track their job application. It use AI to automatically add job applications, saving manual input time and improving tracking efficiency.
 
-![ApplicationPage Screenshot](screenshot/ApplicationPage.png)
+![ApplicationPage Screenshot](screenshot/screenshot.PNG)
 
 ## Why This Project?
 
