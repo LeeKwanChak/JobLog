@@ -35,21 +35,21 @@ Frontend
 > Note: A Docker-based setup is planned for the future. For now, follow the steps below to run locally.
 
 1. Prerequisites
-* JDK 17
-* Node.js and npm
-* PostgreSQL database server
-* Chrome Browser and its corresponding ChromeDriver executable (required for the web scraping feature).
+    * JDK 17
+    * Node.js and npm
+    * PostgreSQL database server
+    * Chrome Browser and its corresponding ChromeDriver executable (required for the web scraping feature).
 
 2. Clone the repository
 
 3. Environment Variable Setup
 
 For Backend:
-* GEMINI_API_KEY: Your Google Gemini API key
-* DATASOURCE_USERNAME: PostgreSQL database username
-* DATASOURCE_PASSWORD: PostgreSQL database password
-* JWT_SECRET: secret key for JWT authentication
-* WEBDRIVER_CHROME_DRIVER_PATH: The absolute path to your ChromeDriver executable
+    * GEMINI_API_KEY: Your Google Gemini API key
+    * DATASOURCE_USERNAME: PostgreSQL database username
+    * DATASOURCE_PASSWORD: PostgreSQL database password
+    * JWT_SECRET: secret key for JWT authentication
+    * WEBDRIVER_CHROME_DRIVER_PATH: The absolute path to your ChromeDriver executable
 
 For Frontend:
 * VITE_API_URL: This variable defines the base URL for your backend API.
