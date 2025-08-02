@@ -2,6 +2,7 @@
 
 A full stack app that allow user to track their job application. It use AI to automatically add job applications by simply pasting a URL, saving manual input time and improving tracking efficiency.
 
+
 ![ApplicationPage Screenshot](screenshot/screenshot.PNG)
 
 ## Why This Project?
@@ -11,21 +12,24 @@ A full stack app that allow user to track their job application. It use AI to au
 
 ## Key Feature
 
-* Application Management: Easily Create, Read, Update, and Delete job application records.
-* AI-Powered Autofill: Integration with selenium web scraping and Google Gemini API to automatically add applications by simply pasting a link
-* Secure User Authentication: Support user registration and login system with secure JWT-based authentication.
-* UI/UX: Clean and responsive frontend for a smooth user experience.
+* **Application Management**: Easily Create, Read, Update, and Delete job application records.
+
+* **AI-Powered Autofill**: Integration with selenium web scraping and Google Gemini API to automatically add applications by simply pasting a link
+
+* **Secure User Authentication**: Support user registration and login system with secure JWT-based authentication.
+
+* **UI/UX**: Clean and responsive frontend for a smooth user experience.
 
 ## Tech Stack
 
-Backend
+**Backend**
 - Language: Java 17
 - Framework: Spring Boot 3.5.3
 - Database: PostgreSQL
 - Authentication: Spring Security
 - Dependency Management: Gradle
 
-Frontend
+**Frontend**
 - Language: TypeScript
 - Framework: React.js
 - Styling: Tailwind CSS
