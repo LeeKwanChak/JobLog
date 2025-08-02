@@ -43,6 +43,7 @@ Frontend
 2. Clone the repository
 
 3. Environment Variable Setup
+
     For Backend
     * GEMINI_API_KEY: Your Google Gemini API key
     * DATASOURCE_USERNAME: PostgreSQL database username
