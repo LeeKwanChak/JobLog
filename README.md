@@ -1,6 +1,6 @@
 # Job Application Tracker
 
-A full stack app that allow user to track their job application. It use AI to automatically add job applications, saving manual input time and improving tracking efficiency.
+A full stack app that allow user to track their job application. It use AI to automatically add job applications by simply pasting a URL, saving manual input time and improving tracking efficiency.
 
 ![ApplicationPage Screenshot](screenshot/screenshot.PNG)
 
