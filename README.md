@@ -43,17 +43,16 @@ Frontend
 2. Clone the repository
 
 3. Environment Variable Setup
-
-For Backend:
+    For Backend
     * GEMINI_API_KEY: Your Google Gemini API key
     * DATASOURCE_USERNAME: PostgreSQL database username
     * DATASOURCE_PASSWORD: PostgreSQL database password
     * JWT_SECRET: secret key for JWT authentication
     * WEBDRIVER_CHROME_DRIVER_PATH: The absolute path to your ChromeDriver executable
 
-For Frontend:
-* VITE_API_URL: This variable defines the base URL for your backend API.
-
+    For Frontend
+    * VITE_API_URL: This variable defines the base URL for your backend API.
+    
 4. Database Setup
 Ensure you have a PostgreSQL database named job-application-tracker-db created.
 
