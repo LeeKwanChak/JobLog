@@ -1,6 +1,6 @@
 # Job Application Tracker
 
-A full stack app that help user to track their job application. It use AI to automatically extract job details and save application by simply pasting a URL, saving manual input time and improving tracking efficiency.
+A full stack app that help user to track their job application. It use AI and Selenium to automatically extract job details and save application by simply pasting a URL, saving manual input time and improving tracking efficiency.
 
 
 ![ApplicationPage Screenshot](screenshot/screenshot.PNG)
@@ -14,7 +14,7 @@ A full stack app that help user to track their job application. It use AI to aut
 
 * **Application Management**: Easily Create, Read, Update, and Delete job application records.
 
-* **AI-Powered Autofill**: Integration with selenium web scraping and Google Gemini API to automatically add applications by simply pasting a link
+* **AI-Powered Autofill**: Integration with Selenium web scraping and Google Gemini API to automatically add applications by simply pasting a link
 
 * **Secure User Authentication**: Support user registration and login system with secure JWT-based authentication.
 
@@ -42,7 +42,7 @@ A full stack app that help user to track their job application. It use AI to aut
     * JDK 17
     * Node.js and npm
     * PostgreSQL database server
-    * Chrome Browser and its corresponding ChromeDriver executable (required for the web scraping feature).
+    * Chrome Browser
 
 2. Clone the repository
 
@@ -53,7 +53,6 @@ A full stack app that help user to track their job application. It use AI to aut
     * DATASOURCE_USERNAME: PostgreSQL database username
     * DATASOURCE_PASSWORD: PostgreSQL database password
     * JWT_SECRET: secret key for JWT authentication
-    * WEBDRIVER_CHROME_DRIVER_PATH: The absolute path to your ChromeDriver executable
 
     For Frontend
     * VITE_API_URL: This variable defines the base URL for your backend API.

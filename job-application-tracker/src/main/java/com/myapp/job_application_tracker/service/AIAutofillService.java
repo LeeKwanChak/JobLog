@@ -32,8 +32,6 @@ public class AIAutofillService {
     private final Client geminiClient;
     private final ApplicationRepository applicationRepository;
     private final ObjectMapper objectMapper;
-    @Value("${webdriver.chrome.driver.path}")
-    private String chromedriverPath;
 
 
     public AIAutofillService(WebClient.Builder webClientBuilder, @Value("${gemini.api.key}") String geminiApiKey, ApplicationRepository applicationRepository){
@@ -47,14 +45,13 @@ public class AIAutofillService {
     public String getWebContent(String url){
         WebDriver driver = null;
         try{
-            System.setProperty("webdriver.chrome.driver", chromedriverPath);
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
             options.addArguments("--disable-gpu");
             options.addArguments("--window-size=1920,1080");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36");
+            options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.7204.184 Safari/537.36");
             options.addArguments("--log-level=3");
             options.addArguments("--silent");
             options.addArguments("--disable-extensions");
