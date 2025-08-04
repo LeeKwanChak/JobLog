@@ -18,11 +18,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 @Service
 public class AIAutofillService {
@@ -32,49 +31,38 @@ public class AIAutofillService {
     private final Client geminiClient;
     private final ApplicationRepository applicationRepository;
     private final ObjectMapper objectMapper;
+    private final WebDriverPool webDriverPool;
 
-
-    public AIAutofillService(WebClient.Builder webClientBuilder, @Value("${gemini.api.key}") String geminiApiKey, ApplicationRepository applicationRepository){
+    public AIAutofillService(WebClient.Builder webClientBuilder, @Value("${gemini.api.key}") String geminiApiKey, ApplicationRepository applicationRepository, WebDriverPool webDriverPool){
         this.webClient = webClientBuilder.build();
         this.geminiClient = Client.builder().apiKey(geminiApiKey).build();
         this.applicationRepository = applicationRepository;
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
+        this.webDriverPool = webDriverPool;
     }
 
     public String getWebContent(String url){
         WebDriver driver = null;
         try{
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
-            options.addArguments("--disable-gpu");
-            options.addArguments("--window-size=1920,1080");
-            options.addArguments("--no-sandbox");
-            options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.7204.184 Safari/537.36");
-            options.addArguments("--log-level=3");
-            options.addArguments("--silent");
-            options.addArguments("--disable-extensions");
-            options.addArguments("--disable-infobars");
-            options.addArguments("--disable-notifications");
-            options.addArguments("--disable-popup-blocking");
-            options.addArguments("--blink-settings=imagesEnabled=false");
-
-            driver = new ChromeDriver(options);
+            driver = webDriverPool.acquire();
             driver.get(url);
             String web_html = driver.getPageSource();
             org.jsoup.nodes.Document doc = org.jsoup.Jsoup.parse(web_html);
+            doc.select("script, style, nav, header, footer").remove();
+            doc.select(".cookie-notice, .login-prompt, .navigation").remove();
             String cleanedText = doc.body().text();
-            return cleanedText.substring(0, Math.min(cleanedText.length(), 4000));
+            return cleanedText.substring(0, Math.min(cleanedText.length(), 3000));
         }catch(Exception e){
             logger.error("Error during Selenium web content extraction.");
             throw new WebContentExtractionException("Fail to extract the web html.");
         }finally {
             if(driver != null){
-                driver.quit();
+                webDriverPool.release(driver);
             }
         }
     }
+
 
     private AutofillResponse callGeminiApi(String webContent){
         if(webContent == null){
