@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             } else{
                 userOptional = userRepository.findByUsername(identifier);
             }
-            User user = userOptional.orElseThrow(() -> new UsernameNotFoundException("User Not Found with indentifier: "+ identifier));
+            User user = userOptional.orElseThrow(() -> new UsernameNotFoundException("User Not Found with identifier: "+ identifier));
             return UserDetailsImpl.build(user);
         }
 }

@@ -137,7 +137,7 @@ const UserApplication: React.FC = () =>{
 
     return(
         <div className='flex-1'>
-            <main className = "overflow-x-hidden bg-gray-50 min-h-screen pl-2 pr-2">
+            <main className = "overflow-x-hidden bg-gray-50 min-h-screen pl-2 pr-2 pb-4">
                 <div className='flex justify-between p-3 mb-4 mt-3'>
                     <p className='text-2xl mt-1 mr-1 hidden md:block whitespace-nowrap'>My Applications</p>
                     <form onSubmit={AIAutofill} className='w-full max-w-xl'>

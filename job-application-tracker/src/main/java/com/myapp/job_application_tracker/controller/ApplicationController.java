@@ -40,12 +40,16 @@ public class ApplicationController {
         this.aiAutofillService = aiAutofillService;
     }
 
+    private Long getCurrentUserId(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        return userDetails.getId();
+    }
+
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Application> createApplication(@Valid @RequestBody ApplicationRequest applicationRequest){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Long currentUserId = userDetails.getId();
+        Long currentUserId = getCurrentUserId();
         User currentUser = userRepository.findById(currentUserId).orElseThrow(() -> new NotFoundException("User ID not found"));
 
         Application application = new Application();
@@ -65,9 +69,7 @@ public class ApplicationController {
     @GetMapping("/all")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Application>> getAllApplicationsForCurrentUser(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Long currentUserId = userDetails.getId();
+        Long currentUserId = getCurrentUserId();
         List<Application> applications = applicationService.getAllApplicationsByUserId(currentUserId);
         return ResponseEntity.ok(applications);
     }
@@ -75,9 +77,7 @@ public class ApplicationController {
     @PutMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Application> updateApplication(@PathVariable Long id, @Valid @RequestBody ApplicationRequest applicationRequest){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Long currentUserId = userDetails.getId();
+        Long currentUserId = getCurrentUserId();
 
         Application application = applicationService.getApplicationById(id);
         if(!application.getUser().getId().equals(currentUserId)){
@@ -98,9 +98,7 @@ public class ApplicationController {
     @DeleteMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Void> deleteApplication(@PathVariable Long id){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Long currentUserId = userDetails.getId();
+        Long currentUserId = getCurrentUserId();
 
         Application application = applicationService.getApplicationById(id);
         if(!application.getUser().getId().equals(currentUserId)){
@@ -119,9 +117,7 @@ public class ApplicationController {
             @RequestParam(required = false) String requiredSkills,
             @PageableDefault(page = 0, size = 50, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Long currentUserId = userDetails.getId();
+        Long currentUserId = getCurrentUserId();
 
         Page<Application> applications = applicationService.getFilteredApplication(
                 currentUserId, companyName, jobTitle, status, requiredSkills, pageable);

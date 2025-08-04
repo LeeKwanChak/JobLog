@@ -67,6 +67,6 @@ A full stack app that help user to track their job application. It use AI and Se
 
 ### Auto-add Capabilities:
 
-**Supported Websites:** LinkedIn, Jobsdb, Google Careers, Apple Careers, AWS, Meta, and more...
+**Worked Websites:** LinkedIn, Jobsdb, Google Careers, Apple Careers, AWS, Meta, and more...
 
 **Known Limitations:** Indeed, Oracle, Netflix 
