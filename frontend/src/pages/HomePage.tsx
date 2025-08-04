@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useNavigate,Outlet} from 'react-router-dom';
 import { removeToken } from '../utils/auth';
 import { MdOutlineDashboard, MdLogout } from 'react-icons/md';
@@ -9,6 +9,7 @@ import { FaUser } from "react-icons/fa";
 
 const HomePage: React.FC = () => {
     const navigate = useNavigate();
+    const [sidebarOpen, setSidebarOpen] = useState(true)
 
     const handleLogout = () =>{
         removeToken()
@@ -25,8 +26,8 @@ const HomePage: React.FC = () => {
 
     return(
         <section className='flex'>
-            <Sidebar menus={menus} />
-            <div className='flex-1/4'>
+            <Sidebar menus={menus} open={sidebarOpen} setOpen={setSidebarOpen}/>
+            <div className={`flex-1 min-h-screen transition-all duration-500 ${sidebarOpen ? 'ml-72' : 'ml-16'}`}>
                 <Outlet />
             </div>
         </section>

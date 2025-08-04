@@ -120,6 +120,8 @@ const UserApplication: React.FC = () =>{
             return 'bg-green-400 text-white';
         case 'Rejected':
             return 'bg-red-400 text-white'; 
+        case 'Draft':
+            return 'bg-gray-400 text-white'
         default:
             return '';
         }

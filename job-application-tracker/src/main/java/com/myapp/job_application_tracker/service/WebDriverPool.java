@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class WebDriverPool {
     private final BlockingQueue<WebDriver> pool;
-    private static final int POOL_SIZE = 2;
+    private static final int POOL_SIZE = 3;
 
     public WebDriverPool(){
         pool = new ArrayBlockingQueue<>(POOL_SIZE);

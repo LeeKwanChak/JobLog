@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 
 interface SidebarProps {
     menus: Menu[];
+    open: boolean
+    setOpen: (open: boolean) => void
 }
 
 interface Menu {
@@ -15,12 +17,10 @@ interface Menu {
     margin?: boolean;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ menus }) =>{
-    const[open, setOpen] = useState(true)
-    
+const Sidebar: React.FC<SidebarProps> = ({ menus, open, setOpen  }) =>{
 
     return(
-        <div className={`bg-[#0e0e0e] min-h-screen ${open? 'w-72':'w-16'} duration-500 text-gray-100 px-4`}>
+        <div className={`fixed top-0 left-0 z-0 bg-[#0e0e0e] min-h-screen ${open? 'w-72':'w-16'} duration-500 text-gray-100 px-4 `}>
             <div className='py-3 flex justify-end'>
                 <HiMenuAlt3 size ={26} className='cursor-pointer' onClick={()=> setOpen(!open)}/>
             </div>

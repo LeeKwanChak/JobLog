@@ -186,6 +186,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ application, onClose, onUpdateS
                             <option value="Interviewing">Interviewing</option>
                             <option value="Offered">Offered</option>
                             <option value="Rejected">Rejected</option>
+                            <option value="Draft">Draft</option>
                         </select>
                     </div>
                     <div className="flex justify-between">
