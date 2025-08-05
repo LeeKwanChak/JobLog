@@ -43,6 +43,26 @@ public class AIAutofillService {
     }
 
     public String getWebContent(String url){
+        try{
+            org.jsoup.nodes.Document doc = org.jsoup.Jsoup.connect(url)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.7204.184 Safari/537.36")
+                    .timeout(5000).get();
+            doc.select("script, style, nav, header, footer").remove();
+            doc.select(".cookie-notice, .login-prompt, .navigation").remove();
+            String bodyText = doc.body().text();
+
+            if (bodyText.length() > 500) {
+                logger.info("---------------------------------------------------------------");
+                logger.info("Using Jsoup (static HTML) for: {}", url);
+                return bodyText.substring(0, Math.min(bodyText.length(), 3000));
+            }
+        }catch (Exception e){
+            logger.warn("Jsoup fetch failed, falling back to Selenium: {}", e.getMessage());
+        }
+
+
+        logger.info("---------------------------------------------------------------");
+        logger.info("Using Selenium for: {}", url);
         WebDriver driver = null;
         try{
             driver = webDriverPool.acquire();
@@ -69,8 +89,6 @@ public class AIAutofillService {
             throw new WebContentExtractionException("Fail to extract the web html.");
         }
         String prompt = "Please extract the following information from the provided job description text. Respond ONLY with a JSON object. If a field is not found or cannot be determined, use null for its value.\n" +
-                "**If you encounter any garbled or unreadable characters, please ignore them and continue processing the next valid character.**\n\n" +
-                "Please ignore cookie notices, terms and conditions, login/register prompts, navigation menu text, and other unrelated UI content. Focus only on analyzing the job posting\n"+
                 "Fields to extract: companyName, jobTitle, requiredSkills (as a single comma-separated string), location, salary.\n" +
                 "If provided, salary only return either one format: 1. $xxxxx - $xxxxx, 2. $xxxxx" +
                 "Ensure the JSON is perfectly valid and directly parseable, without any additional text or markdown formatting.\n\n" +

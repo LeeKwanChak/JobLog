@@ -1,6 +1,6 @@
 # Job Application Tracker
 
-A full stack app that help user to track their job application. It use AI and Selenium to automatically extract job details and save application by simply pasting a URL, saving manual input time and improving tracking efficiency.
+A full stack app that help user to track their job application. It use AI and Web scraping to automatically extract job details and save application by simply pasting a URL, saving manual input time and improving tracking efficiency.
 
 
 ![ApplicationPage Screenshot](screenshot/screenshot.PNG)
@@ -14,7 +14,7 @@ A full stack app that help user to track their job application. It use AI and Se
 
 * **Application Management**: Easily Create, Read, Update, and Delete job application records.
 
-* **AI-Powered Autofill**: Integration with Selenium web scraping and Google Gemini API to automatically add applications by simply pasting a link
+* **AI-Powered Autofill**: Integrates Jsoup/Selenium with the Google Gemini API to automatically create application records from a pasted job posting URL. Extracts and stores key job details such as title, requirements, location, and salary.
 
 * **Secure User Authentication**: Support user registration and login system with secure JWT-based authentication.
 

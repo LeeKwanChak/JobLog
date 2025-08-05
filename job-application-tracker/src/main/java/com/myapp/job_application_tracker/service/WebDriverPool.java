@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.time.Duration;
+import org.openqa.selenium.PageLoadStrategy;
 
 @Component
 public class WebDriverPool {
@@ -35,6 +37,8 @@ public class WebDriverPool {
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--blink-settings=imagesEnabled=false");
+        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+        options.addArguments("--disable-css");
 
         return new ChromeDriver(options);
     }
@@ -44,13 +48,28 @@ public class WebDriverPool {
         if (driver == null) {
             throw new RuntimeException("Timeout: no available WebDriver in the pool.");
         }
+
+
         return driver;
     }
 
     public void release(WebDriver driver){
-        if(driver != null){
-            pool.offer(driver);
+        if(driver == null) return;
+
+        try{
+            driver.manage().deleteAllCookies();
+            driver.navigate().to("about:blank");
+        }catch (Exception e){
+            quitQuietly(driver);
+            return;
         }
+
+        if(isDriverAlive(driver)){
+            pool.offer(driver);
+        }else{
+            quitQuietly(driver);
+        }
+
     }
 
     public void shutdown(){
@@ -58,5 +77,21 @@ public class WebDriverPool {
             driver.quit();
         }
         pool.clear();
+    }
+
+    private boolean isDriverAlive(WebDriver driver) {
+        try {
+            driver.getTitle();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private void quitQuietly(WebDriver driver) {
+        try {
+            driver.quit();
+        } catch (Exception ignored) {
+        }
     }
 }
