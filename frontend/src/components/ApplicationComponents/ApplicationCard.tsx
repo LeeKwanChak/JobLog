@@ -27,7 +27,7 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({
 }) =>{
     return(
         <div key={app.id} 
-        className="relative bg-white p-5 rounded-xl shadow-lg border border-gray-200 hover:bg-gray-100 transition duration-300 ease-in-out ml-1 mr-1"
+        className="relative bg-white p-5 rounded-xl border shadow border-gray-300 hover:bg-gray-100 transition duration-300 ease-in-out ml-1 mr-1"
         onClick={() => { 
             if ((window.getSelection() as any)?.toString().length > 0){
                 return

@@ -9,7 +9,7 @@ import { FaUser } from "react-icons/fa";
 
 const HomePage: React.FC = () => {
     const navigate = useNavigate();
-    const [sidebarOpen, setSidebarOpen] = useState(true)
+    const [sidebarOpen, setSidebarOpen] = useState(false)
 
     const handleLogout = () =>{
         removeToken()
@@ -27,7 +27,7 @@ const HomePage: React.FC = () => {
     return(
         <section className='flex'>
             <Sidebar menus={menus} open={sidebarOpen} setOpen={setSidebarOpen}/>
-            <div className={`flex-1 min-h-screen transition-all duration-500 ${sidebarOpen ? 'ml-72' : 'ml-16'}`}>
+            <div className={`flex-1 min-h-screen transition-all duration-500 ${sidebarOpen ? 'ml-62' : 'ml-16'} bg-gray-50`}>
                 <Outlet />
             </div>
         </section>

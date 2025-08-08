@@ -6,8 +6,8 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import CreateForm from '../components/PopupForm/CreateForm.tsx'
 import { IoFilter } from "react-icons/io5";
 import ApplicationPopup from '../components/PopupForm/ApplicationPopup.tsx';
-import ApplicationCard from '../components/ApplicationCard/ApplicationCard.tsx';
-
+import ApplicationCard from '../components/ApplicationComponents/ApplicationCard.tsx';
+import { useMediaQuery } from 'react-responsive';
 
 interface AutofillRequest{
     url: string;
@@ -27,6 +27,8 @@ const UserApplication: React.FC = () =>{
     const [selectedApplicationPopup, setSelectedApplicationPopup] = useState<Application | null>(null)
     const [showFilterDropdown, setShowFilterDropdown] = useState<boolean>(false)
     const [statusFilter, setStatusFilter] = useState<string>('All')
+
+    const isDesktop = useMediaQuery({ minWidth: 768 });
 
     async function fetchAllApplications(){
         setError(null)
@@ -138,15 +140,15 @@ const UserApplication: React.FC = () =>{
     const filteredApplications = statusFilter === 'All'? applications: applications.filter(app => app.applicationStatus === statusFilter);
 
     return(
-        <div className='flex-1'>
-            <main className = "overflow-x-hidden bg-gray-50 min-h-screen pl-2 pr-2 pb-4">
-                <div className='flex justify-between p-3 mb-4 mt-3'>
-                    <p className='text-2xl mt-1 mr-1 hidden md:block whitespace-nowrap'>My Applications</p>
+        <div className='flex-1 bg-white m-6 min-h-screen rounded-2xl border border-gray-200'>
+            <main className = "overflow-x-hidden  min-h-screen pl-2 pr-2 pb-4">
+                <div className='flex justify-between p-3 mb-4 mt-3 '>
+                    <p className='text-2xl font-semibold mt-1 mr-1 hidden md:block whitespace-nowrap'>My Applications</p>
                     <form onSubmit={AIAutofill} className='w-full max-w-xl'>
                         <div className="relative flex items-center">
                             <input type="text" 
                                 placeholder='Paste job URL to auto-add an application'
-                                className='w-full max-w-xl shadow appearance-none border rounded py-2 px-3 text-gray-700 bg-white'
+                                className='w-full max-w-xl shadow appearance-none border border-gray-400 rounded-xl py-2 px-3 text-gray-700 bg-white '
                                 disabled={autofillLoading}
                                 value={urlToAutofill}
                                 onChange={(e) => setUrlToAutofill(e.target.value)}
@@ -162,7 +164,7 @@ const UserApplication: React.FC = () =>{
                         <button className=' flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 shadow-sm transition ml-2' onClick ={() => setShowFilterDropdown(!showFilterDropdown)}><IoFilter /><span className="hidden sm:inline text-sm font-medium">Filter</span></button>
 
                         {showFilterDropdown && (
-                            <div className='absolute top-17 right-20 w-32 bg-white rounded-md shadow-lg border border-gray-200 z-10'>
+                            <div className='absolute top-23 right-27 w-32 bg-white rounded-md shadow-lg border border-gray-200 z-10'>
                                 {['All', 'Applied', 'Interviewing', 'Offered' , 'Rejected'].map(status =>(
                                     <button key={status} onClick={() => {setStatusFilter(status); setShowFilterDropdown(false)}} className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
                                         {status}
@@ -183,21 +185,29 @@ const UserApplication: React.FC = () =>{
                 ) : (
 
                     applications.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {filteredApplications.map((app) => (
-                                <ApplicationCard
-                                    key = {app.id}
-                                    app= {app}
-                                    openAppMenuId = {openAppMenuId}
-                                    onToggleMenu={(id) => setOpenAppMenuId(openAppMenuId === id ? null : id)}
-                                    onUpdate={handleUpdate}
-                                    onDelete={handleDelete}
-                                    onViewDetails={handleViewDetails}
-                                    getStatusStyle={getStatusStyle}
-                                    getFavicon={getFavicon}
-                                />
-                            ))}
-                        </div>
+                        <>
+                        {isDesktop? (
+                            <div className=" ">
+
+                            </div>
+                        ):(
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 ">
+                                {filteredApplications.map((app) => (
+                                    <ApplicationCard
+                                        key = {app.id}
+                                        app= {app}
+                                        openAppMenuId = {openAppMenuId}
+                                        onToggleMenu={(id) => setOpenAppMenuId(openAppMenuId === id ? null : id)}
+                                        onUpdate={handleUpdate}
+                                        onDelete={handleDelete}
+                                        onViewDetails={handleViewDetails}
+                                        getStatusStyle={getStatusStyle}
+                                        getFavicon={getFavicon}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                        </>
                     ) : (
                         <div className="text-center py-8 text-gray-500 text-lg">
                             {!error && "No job applications found. Click '+ Add' or Paste an URL to get started!"}
