@@ -12,7 +12,7 @@ I used to type all my job application details into Excel, it just felt like such
 
 * **Application Management**: Easily Create, Read, Update, and Delete job application records.
 
-* **AI-Powered Autofill**: Integrates Web scraping with the Google Gemini API to automatically create application records from a pasted job posting URL. Extracts and stores key job details such as title, requirements, location, and salary - **all in just 6–10 seconds**, saving you from boring manual entry.
+* **AI-Powered Autofill**: Integrates Web scraping with the Google Gemini API to automatically create application records from a pasted job posting URL. Extracts and stores key job details such as title, requirements, location, and salary — **all in just 6 - 10 seconds**, saving you from boring manual entry.
 
 * **Secure User Authentication**: Support user registration and login system with secure JWT-based authentication.
 
