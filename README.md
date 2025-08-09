@@ -1,6 +1,7 @@
 # Job Application Tracker
 Tired of copying and pasting job details into endless spreadsheets? This full-stack app lets you record your job applications easily — just paste a job posting URL, and AI + Web Scraping instantly pulls all key job details for you.
 
+![Desktop GIF](screenshot/JAT.gif) 
 
 ## Background
 I used to type all my job application details into Excel, it just felt like such a hassle. I wanted a simpler, quicker way to keep track of everything without all the manual work. That’s how this app was born.
