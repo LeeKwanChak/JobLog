@@ -21,7 +21,7 @@ I used to type all my job application details into Excel, it just felt like such
 ## Screenshots
 * Table View Design for Desktop/Tablet
 
-![Desktop Screenshot](screenshot/DesktopDesign.PNG) 
+![Desktop Screenshot](screenshot/DesktopDesign.gif) 
 
 * Card View Design for Mobile
 
