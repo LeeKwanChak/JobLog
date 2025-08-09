@@ -1,4 +1,4 @@
-# ApplyLog
+# JobLog
 Tired of copying and pasting job application details into endless spreadsheets? 
 
 This full-stack app helps you record your job applications easily — just paste a job posting URL, and AI + Web Scraping engine instantly pulls all key job details for you.

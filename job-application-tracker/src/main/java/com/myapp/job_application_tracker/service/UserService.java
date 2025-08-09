@@ -1,10 +1,13 @@
 package com.myapp.job_application_tracker.service;
 
+import com.myapp.job_application_tracker.exception.NotFoundException;
 import com.myapp.job_application_tracker.exception.UserAlreadyExistsException;
 import com.myapp.job_application_tracker.model.User;
 import com.myapp.job_application_tracker.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -24,5 +27,9 @@ public class UserService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    public User getUserInfo(Long id){
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User Not found."));
     }
 }
