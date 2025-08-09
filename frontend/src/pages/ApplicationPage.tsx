@@ -28,7 +28,6 @@ const UserApplication: React.FC = () =>{
     const [selectedApplicationPopup, setSelectedApplicationPopup] = useState<Application | null>(null)
     const [showFilterDropdown, setShowFilterDropdown] = useState<boolean>(false)
     const [statusFilter, setStatusFilter] = useState<string>('All')
-    const [totalNum, setTotalNum] = useState<number>(0)
 
     const isDesktop = useMediaQuery({ minWidth: 768 });
 
