@@ -8,6 +8,7 @@ import { IoFilter } from "react-icons/io5";
 import ApplicationPopup from '../components/PopupForm/ApplicationPopup.tsx';
 import ApplicationCard from '../components/ApplicationComponents/ApplicationCard.tsx';
 import { useMediaQuery } from 'react-responsive';
+import ApplicationTable from '../components/ApplicationComponents/ApplicationTable.tsx';
 
 interface AutofillRequest{
     url: string;
@@ -27,6 +28,7 @@ const UserApplication: React.FC = () =>{
     const [selectedApplicationPopup, setSelectedApplicationPopup] = useState<Application | null>(null)
     const [showFilterDropdown, setShowFilterDropdown] = useState<boolean>(false)
     const [statusFilter, setStatusFilter] = useState<string>('All')
+    const [totalNum, setTotalNum] = useState<number>(0)
 
     const isDesktop = useMediaQuery({ minWidth: 768 });
 
@@ -187,24 +189,38 @@ const UserApplication: React.FC = () =>{
                     applications.length > 0 ? (
                         <>
                         {isDesktop? (
-                            <div className=" ">
-
-                            </div>
-                        ):(
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 ">
-                                {filteredApplications.map((app) => (
-                                    <ApplicationCard
-                                        key = {app.id}
-                                        app= {app}
-                                        openAppMenuId = {openAppMenuId}
-                                        onToggleMenu={(id) => setOpenAppMenuId(openAppMenuId === id ? null : id)}
+                            <div>
+                                <p className='text-gray-400 pl-2 pb-2'>Total records: {filteredApplications.length}</p>
+                                <div className=" ">
+                                    <ApplicationTable
+                                        applications={filteredApplications}
                                         onUpdate={handleUpdate}
                                         onDelete={handleDelete}
                                         onViewDetails={handleViewDetails}
                                         getStatusStyle={getStatusStyle}
                                         getFavicon={getFavicon}
                                     />
-                                ))}
+                                </div>
+                            </div>
+                        ):(
+                            <div>
+                                <p className='text-gray-400 pl-2 pb-2'>Total records: {filteredApplications.length}</p>
+
+                                <div className="grid gap-3 ">
+                                    {filteredApplications.map((app) => (
+                                        <ApplicationCard
+                                            key = {app.id}
+                                            app= {app}
+                                            openAppMenuId = {openAppMenuId}
+                                            onToggleMenu={(id) => setOpenAppMenuId(openAppMenuId === id ? null : id)}
+                                            onUpdate={handleUpdate}
+                                            onDelete={handleDelete}
+                                            onViewDetails={handleViewDetails}
+                                            getStatusStyle={getStatusStyle}
+                                            getFavicon={getFavicon}
+                                        />
+                                    ))}
+                                </div>
                             </div>
                         )}
                         </>

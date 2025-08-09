@@ -1,24 +1,51 @@
 # Job Application Tracker
+Tired of copying and pasting job details into endless spreadsheets? This full-stack app lets you record your job applications easily — just paste a job posting URL, and AI + Web Scraping instantly pulls all key job details for you.
 
-A full stack app that help user to track their job application. It use AI and Web scraping to automatically extract job details and save application by simply pasting a URL, saving manual input time and improving tracking efficiency.
 
+## Background
+I used to type all my job application details into Excel, it just felt like such a hassle. I wanted a simpler, quicker way to keep track of everything without all the manual work. That’s how this app was born.
 
-![ApplicationPage Screenshot](screenshot/screenshot.PNG)
-
-## Why This Project?
-
-* To provide an automated and efficient way to record job applications, eliminating the need for manual, repetitive data entry.
-* To further develop my full-stack programming skills
-
-## Key Feature
+## Key Features
 
 * **Application Management**: Easily Create, Read, Update, and Delete job application records.
 
-* **AI-Powered Autofill**: Integrates Jsoup/Selenium with the Google Gemini API to automatically create application records from a pasted job posting URL. Extracts and stores key job details such as title, requirements, location, and salary.
+* **AI-Powered Autofill**: Integrates Web scraping with the Google Gemini API to automatically create application records from a pasted job posting URL. Extracts and stores key job details such as title, requirements, location, and salary - **all in just 6–10 seconds**, saving you from boring manual entry.
 
 * **Secure User Authentication**: Support user registration and login system with secure JWT-based authentication.
 
-* **UI/UX**: Clean and responsive frontend for a smooth user experience.
+* **UI/UX**: Clean and responsive frontend for a smooth user experience on both large screens (desktop/tablet) and small screens (mobile).
+
+## Screenshots
+* Table View Design for Desktop/Tablet
+
+![Desktop Screenshot](screenshot/DesktopDesign.PNG) 
+
+* Card View Design for Mobile
+
+![Mobile Screenshot](screenshot/MobileDesign.PNG) 
+
+
+## How AI Autofill Works
+
+The core of this feature is to transform a job posting webpage into structured data and save it automatically to the database. The entire process can be broken down into the following procedure:
+
+User Pastes URL -> Web Scraping -> AI Data Extraction-> Database
+
+
+### Intelligent Web Scraping
+
+To handle websites built with different technologies, I implemented two strategies:
+
+* **Static-First with Jsoup**: The backend AIAutofillService first attempts a quick scrape using Jsoup to get the static HTML, as this is the fastest way to retrieve the HTML content.
+
+* **Fallback with Selenium**: If Jsoup fails to get the HTML due to some reason (e.g. anti web scraping, page rendered by JavaScript) the system switches to Selenium WebDriver, which simulates a real browser to get the final HTML.
+
+After getting the content, the system cleans the HTML by removing irrelevant elements in order to provide core job description text to Google Gemini.
+
+### AI Data Extraction
+* **Prompt Engineering**: The prompt instructs the AI to find key fields like companyName, jobTitle, salary, etc.
+
+* **Structured JSON Output**: Most importantly, the prompt forces AI to respond with only a pure JSON object. This allows the backend to reliably parse the data without dealing with unpredictable natural language.
 
 ## Tech Stack
 
@@ -62,7 +89,7 @@ A full stack app that help user to track their job application. It use AI and We
 
 5. Run both the backend and the frontend
 
-## Known Problems
+## Known Limitations
 * Web Scraping Resistance: The auto-add function, which relies on web scraping techniques, may encounter difficulties on certain websites that implement advanced anti-scraping measures.
 
 ### Auto-add Capabilities:

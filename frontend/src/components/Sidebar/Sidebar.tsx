@@ -20,7 +20,7 @@ interface Menu {
 const Sidebar: React.FC<SidebarProps> = ({ menus, open, setOpen  }) =>{
 
     return(
-        <div className={`fixed top-0 left-0 z-0 bg-white min-h-screen ${open? 'w-62':'w-16'} duration-500 text-gray-800 px-4 border-r border-gray-200`}>
+        <div className={`fixed top-0 left-0 z-0 bg-slate-800 min-h-screen ${open? 'w-62':'w-16'} duration-500 text-white px-4 border-r border-gray-200`}>
             <div className='py-3 flex justify-end'>
                 <HiMenuAlt3 size ={26} className='cursor-pointer' onClick={()=> setOpen(!open)}/>
             </div>
@@ -31,9 +31,9 @@ const Sidebar: React.FC<SidebarProps> = ({ menus, open, setOpen  }) =>{
                     <button 
                         key={i} 
                         onClick={menu.action}
-                        className={`w-full ${menu?.margin && 'mt-5'} group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
+                        className={`w-full ${menu?.margin && 'mt-5'} group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-200 rounded-md`}
         >
-                    <div>{React.createElement(menu?.icon, { size: "25" })}</div>
+                    <div>{React.createElement(menu?.icon, { size: "20" })}</div>
                         <h2 style={{ transitionDelay: `${i + 3}00ms` }} className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}`}>
                         {menu?.name}
                         </h2>
