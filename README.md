@@ -1,7 +1,6 @@
 # JobLog
-Tired of copying and pasting job application details into endless spreadsheets? 
 
-This full-stack app helps you record your job applications easily — just paste a job posting URL, and AI + Web Scraping engine instantly pulls all key job details for you.
+JobLog is a full-stack app that helps you record your job applications easily — just paste a job posting URL, and the AI + web scraping engine instantly pulls all the key job details for you.
 
 ![Desktop GIF](screenshot/JAT.gif) 
 

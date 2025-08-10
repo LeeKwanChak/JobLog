@@ -32,4 +32,20 @@ public class UserService {
     public User getUserInfo(Long id){
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User Not found."));
     }
+
+    public User updateUser(User user){
+        return userRepository.save(user);
+    }
+
+    public User getUserById(Long id){
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found."));
+    }
+
+    public Boolean ifExistsUsername(String name){
+        return userRepository.existsByUsername(name);
+    }
+
+    public User saveUser(User user){
+        return userRepository.save(user);
+    }
 }
